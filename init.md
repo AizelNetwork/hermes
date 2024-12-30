@@ -68,17 +68,22 @@ hermes keys add --key-name wallet --chain wasmd-20151225 --mnemonic-file $HERMES
 ```
 The keys location is $HOME/.hermes/keys
 
-## 3. create clients
+## 3. Create the relay path
 
-### 3.1. create a client on wasmd tracking the state of evmos.
+### 3.1. create clients
+
+#### 3.1. create a client on wasmd tracking the state of evmos.
 
 ```shell
 hermes create client --host-chain wasmd-20151225 --reference-chain evmos_9002-20151225
 ```
 
-### 3.2. create a client on evmos tracking the state of wasmd.
+#### 3.2. create a client on evmos tracking the state of wasmd.
 
 ```shell
 hermes create client --host-chain evmos_9002-20151225 --reference-chain  wasmd-20151225
 
 ```
+
+### 3.2. create connections
+
