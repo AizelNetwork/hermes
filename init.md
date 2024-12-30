@@ -53,13 +53,6 @@ evmosd keys export validator1 \
   --home $EVMOSHOME/node1 \
   --output $HERMESHOME/wallet.json
 
-  echo -n "6d88af0862a999ff27d53b6ca1006f95afeaa9171f5437a3a8af300d917ef9e3" | xxd -r -p | base64
-
-
-
-hermes keys add --key-name wallet --chain evmos_9002-20151225 --key-file $HERMESHOME/wallet.json --overwrite
-
-
 ```
 
 ### 2.1. add keys to chains from mnemonic
@@ -68,9 +61,7 @@ hermes keys add --key-name wallet --chain evmos_9002-20151225 --key-file $HERMES
 
 hermes keys add --key-name <KEY_NAME> --chain <CHAIN_ID> --mnemonic-file <MNEMONIC_FILE>
 
-hermes keys add --key-name wallet --chain evmos_9002-20151225 --mnemonic-file $HERMESHOME/alice.key --overwrite
-
-hermes keys add --key-name wallet --chain evmos_9002-20151225 -m "razor system inherit front boss cigar youth museum vocal enhance fat dolphin gas joy gift peace ramp doctor cargo equip chalk joke arrow fresh" --overwrite
+hermes keys add --hd-path "m/44'/60'/0'/0/0" --key-name wallet --chain evmos_9002-20151225 --mnemonic-file $HERMESHOME/alice.key --overwrite
 
 hermes keys add --key-name wallet --chain wasmd-20151225 --mnemonic-file $HERMESHOME/alice.key --overwrite
 
