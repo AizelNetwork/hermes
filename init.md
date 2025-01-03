@@ -113,4 +113,84 @@ You can visualize the topology of the current network with:
 hermes query channels --show-counterparty --chain evmos_9002-20151225
 
 ```
+## 4. Start relaying
 
+In the previous section, you created clients, established a connection between them, and opened a channel on top of it. 
+Now you can start relaying on this path.
+
+### 4.1. Query balances
+
+Use the following commands to query balances on your local chains:
+
+* Balances on evmos_9002-20151225:
+
+```shell
+evmosd --home $EVMOSHOME/node1 query bank balances $(evmosd --home $EVMOSHOME/node1 keys --keyring-backend="file" show validator1 -a) --node tcp://localhost:26657
+
+```
+
+* Balances on wasmd-20151225:
+
+```shell
+wasmd --home $WASMHOME/node1 query bank balances $(wasmd --home $WASMHOME/node1 keys --keyring-backend="file" show alice -a) --node tcp://localhost:36657
+
+```
+
+### 4.2. Exchange packets
+Now, let's exchange samoleans between two chains.
+
+* Open a new terminal and start Hermes using the start command :
+```shell
+hermes start
+
+```
+Hermes will first relay the pending packets that have not been relayed and then start passively relaying by listening for and acting on packet events.
+
+* In a separate terminal, use the ft-transfer command to send 100000 aevmos from evmosd to wasmd over channel-0:
+```shell
+hermes tx ft-transfer \
+  --timeout-seconds 1000 \
+  --dst-chain wasmd-20151225 \
+  --src-chain evmos_9002-20151225 \
+  --src-port transfer \
+  --src-channel channel-0 \
+  --denom aevmos \
+  --amount 100000
+
+```
+
+* Wait a few seconds, then query balances on ibc-1 and ibc-0. You should observe something similar to:
+
+Balances at evmos_9002-20151225:
+```shell
+balances:
+- amount: "99998999999799999999698300"
+  denom: aevmos
+pagination:
+  total: "1"
+
+```
+Balances at wasmd-20151225:
+```shell
+balances:
+- amount: "300000"
+  denom: ibc/8EAC8061F4499F03D2D1419A3E73D346289AE9DB89CAB1486B72539572B1915E
+- amount: "99998999999799999999960878"
+  denom: stake
+pagination:
+  total: "2"
+```
+The samoleans were transferred to wasmd-20151225 and are visible under the denomination ibc/8EAC8.... 
+
+* Transfer back these tokens to evmos_9002-20151225:
+```shell
+hermes tx ft-transfer \
+  --timeout-seconds 1000 \
+  --dst-chain evmos_9002-20151225 \
+  --src-chain wasmd-20151225 \
+  --src-port transfer \
+  --src-channel channel-0 \
+  --denom ibc/8EAC8061F4499F03D2D1419A3E73D346289AE9DB89CAB1486B72539572B1915E \
+  --amount 300000
+
+```
