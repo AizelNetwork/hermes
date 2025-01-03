@@ -72,13 +72,13 @@ The keys location is $HOME/.hermes/keys
 
 ### 3.1. create clients
 
-#### 3.1. create a client on wasmd tracking the state of evmos.
+#### 3.1.1. create a client on wasmd tracking the state of evmos.
 
 ```shell
 hermes create client --host-chain wasmd-20151225 --reference-chain evmos_9002-20151225
 ```
 
-#### 3.2. create a client on evmos tracking the state of wasmd.
+#### 3.1.2. create a client on evmos tracking the state of wasmd.
 
 ```shell
 hermes create client --host-chain evmos_9002-20151225 --reference-chain  wasmd-20151225
@@ -86,4 +86,31 @@ hermes create client --host-chain evmos_9002-20151225 --reference-chain  wasmd-2
 ```
 
 ### 3.2. create connections
+
+After creating clients on both chains, you have to establish a connection between them. 
+Both chains will assign connection-0 as the identifier of their first connection:
+
+```shell
+hermes create connection --a-chain evmos_9002-20151225 --a-client 07-tendermint-0 --b-client 07-tendermint-0
+
+```
+
+### 3.3. channel identifiers
+
+Finally, after the connection has been established, you can now open a new channel on top of it. 
+Both chains will assign channel-0 as the identifier of their first channel:
+
+```shell
+hermes create channel --a-chain evmos_9002-20151225 --a-connection connection-0 --a-port transfer --b-port transfer
+
+```
+
+### 3.4. Visualize the current network
+
+You can visualize the topology of the current network with:
+
+```shell
+hermes query channels --show-counterparty --chain evmos_9002-20151225
+
+```
 
