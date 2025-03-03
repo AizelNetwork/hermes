@@ -1,5 +1,21 @@
 ## 1. Init and Config
 
+### 1.0. Configure Environment Variables
+
+Before you begin, you must set some key environment variables. In particular, configure your home directory for wasmd (the location where node configuration and data are stored). For example, add the following lines to your shell profile (e.g. `~/.bash_profile`, `~/.bashrc`, or `~/.zshrc`):
+
+```bash
+# Base directory for Aizel node configurations
+export HERMESHOME=$HOME/.cosmos/hermes
+
+```
+
+Then reload your shell configuration:
+
+```bash
+source ~/.bash_profile
+```
+
 ### 1.1. create hermes binary alias
 Add the following content to ~/.zshrc
 
