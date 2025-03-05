@@ -16,7 +16,15 @@ Then reload your shell configuration:
 source ~/.bash_profile
 ```
 
-### 1.1. create hermes binary alias
+### 1.1. compile and build
+
+```bash
+
+cargo build --release
+
+```
+
+### 1.2. create hermes binary alias
 Add the following content to ~/.zshrc
 
 ```shell
@@ -31,7 +39,7 @@ Validate config file
 hermes config validate
 ```
 
-### 1.2. config hermes under path HERMESHOME
+### 1.3. config hermes under path HERMESHOME
 
 The config file will looks like that :
 
