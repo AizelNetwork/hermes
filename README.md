@@ -49,8 +49,8 @@ id = "aizel_2015-3333"
 rpc_addr = "http://localhost:26657"
 grpc_addr = "http://localhost:9090"
 event_source = { mode = 'push', url = 'ws://localhost:26657/websocket', batch_delay = '200ms' }
-gas_price = { price = 0.001, denom = 'aevmos' }
-account_prefix = 'evmos'
+gas_price = { price = 0.001, denom = 'aaizel' }
+account_prefix = 'aizel'
 key_name = 'wallet'
 store_prefix = 'ibc'
 
@@ -67,14 +67,14 @@ store_prefix = 'ibc'
 
 ## 2. add keys to a chain
 
-### 2.0 export evmosd key file 
+### 2.0 export aizeld key file 
 
 ```shell
-evmosd keys export validator1 \
+aizeld keys export validator1 \
   --unsafe \
   --unarmored-hex \
   --keyring-backend file \
-  --home $EVMOSHOME/node1 \
+  --home $AIZELHOME/node1 \
   --output $HERMESHOME/wallet.json
 
 ```
@@ -96,13 +96,13 @@ The keys location is $HOME/.hermes/keys
 
 ### 3.1. create clients
 
-#### 3.1.1. create a client on wasmd tracking the state of evmos.
+#### 3.1.1. create a client on wasmd tracking the state of aizel.
 
 ```shell
 hermes create client --host-chain wasmd-20151225 --reference-chain aizel_2015-3333
 ```
 
-#### 3.1.2. create a client on evmos tracking the state of wasmd.
+#### 3.1.2. create a client on aizel tracking the state of wasmd.
 
 ```shell
 hermes create client --host-chain aizel_2015-3333 --reference-chain  wasmd-20151225
@@ -149,7 +149,7 @@ Use the following commands to query balances on your local chains:
 * Balances on aizel_2015-3333:
 
 ```shell
-evmosd --home $EVMOSHOME/node1 query bank balances $(evmosd --home $EVMOSHOME/node1 keys --keyring-backend="file" show validator1 -a) --node tcp://localhost:26657
+aizeld --home $AIZELHOME/node1 query bank balances $(aizeld --home $AIZELHOME/node1 keys --keyring-backend="file" show validator1 -a) --node tcp://localhost:26657
 
 ```
 
@@ -170,7 +170,7 @@ hermes start
 ```
 Hermes will first relay the pending packets that have not been relayed and then start passively relaying by listening for and acting on packet events.
 
-* In a separate terminal, use the ft-transfer command to send 100000 aevmos from evmosd to wasmd over channel-0:
+* In a separate terminal, use the ft-transfer command to send 100000 aaizel from aizeld to wasmd over channel-0:
 ```shell
 hermes tx ft-transfer \
   --timeout-seconds 1000 \
@@ -178,7 +178,7 @@ hermes tx ft-transfer \
   --src-chain aizel_2015-3333 \
   --src-port transfer \
   --src-channel channel-0 \
-  --denom aevmos \
+  --denom aaizel \
   --amount 100000
 
 ```
@@ -189,7 +189,7 @@ Balances at aizel_2015-3333:
 ```shell
 balances:
 - amount: "99998999999799999999698300"
-  denom: aevmos
+  denom: aaizel
 pagination:
   total: "1"
 
